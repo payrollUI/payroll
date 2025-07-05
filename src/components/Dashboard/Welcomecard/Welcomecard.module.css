@@ -1,0 +1,170 @@
+.welcomeCard {
+  background-color: white;
+  padding: 32px;
+  position: relative;
+  width: 100%;
+  margin: 24px auto;
+  padding: 32px 20%  32px 20%;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+.closeBtn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  color: #6b7280;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 600;
+  color: #111827;
+  margin: 0 0 8px 0;
+}
+
+.subtitle {
+  color: #6b7280;
+  margin: 0 0 24px 0;
+  font-size: 16px;
+}
+
+.setupBlock {
+  background-color: #059669;
+  color: white;
+  border-radius: 8px;
+  padding: 24px;
+  margin: 24px 0;
+}
+
+.setupHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.setupTitle {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.progressText {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.setupDescription {
+  font-size: 14px;
+  margin: 0 0 16px 0;
+  opacity: 0.9;
+}
+
+.taskList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.taskRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 12px 0;
+}
+
+.taskLeft {
+  display: flex;
+  align-items: center;
+}
+
+.checkmark {
+  width: 20px;
+  height: 20px;
+  background-color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 12px;
+}
+
+.checkmarkInner {
+  width: 8px;
+  height: 8px;
+  background-color: #059669;
+  border-radius: 50%;
+}
+
+.taskText {
+  font-size: 14px;
+}
+
+.statusTag {
+  background-color: #047857;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.featuresTitle {
+  font-size: 12px;
+  font-weight: 600;
+  color: #374151;
+  margin: 0 0 16px 0;
+  letter-spacing: 0.05em;
+}
+
+.features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.featureCard {
+  text-align: center;
+  padding: 20px 16px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+}
+
+.featureIcon {
+  color: #6b7280;
+  margin-bottom: 12px;
+}
+
+.featureTitle {
+  font-size: 14px;
+  font-weight: 600;
+  color: #111827;
+  margin: 0 0 8px 0;
+}
+
+.featureDescription {
+  font-size: 12px;
+  color: #6b7280;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.progressBarContainer {
+  width: 100%;
+  height: 8px;
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+
+.progressBarFill {
+  height: 100%;
+  background-color: #ffffff;
+  border-radius: 4px 0 0 4px;
+  transition: width 0.3s ease;
+}

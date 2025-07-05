@@ -1,0 +1,13 @@
+.stats_grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  padding: 24px;
+}
+
+.stat_card {
+  background: rgb(10, 3, 3);
+  padding: 24px;
+  border: 1px solid #0b0f18;
+  border-radius: 8px;
+}
