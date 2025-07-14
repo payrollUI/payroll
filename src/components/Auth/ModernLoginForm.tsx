@@ -141,9 +141,10 @@ const StyledTextField = styled(TextField)(({ theme }) => ({
 interface ModernLoginFormProps {
   onSubmit: (data: { email: string; password: string }) => Promise<void> | void;
   onSocialAuth?: (provider: 'google' | 'linkedin') => void;
+  successMessage?: string;
 }
 
-const ModernLoginForm: React.FC<ModernLoginFormProps> = ({ onSubmit, onSocialAuth }) => {
+const ModernLoginForm: React.FC<ModernLoginFormProps> = ({ onSubmit, onSocialAuth, successMessage }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -180,8 +181,29 @@ const ModernLoginForm: React.FC<ModernLoginFormProps> = ({ onSubmit, onSocialAut
 
   return (
     <StyledContainer>
-      <StyledCard>
-        <CardContent sx={{ p: 4 }}>
+      <StyledCard elevation={0}>
+        <CardContent sx={{ p: { xs: 3, sm: 4 } }}>
+          {/* Success Message */}
+          {successMessage && (
+            <Alert 
+              severity="success" 
+              sx={{ mb: 3, borderRadius: 2 }}
+            >
+              {successMessage}
+            </Alert>
+          )}
+
+          {/* Error Alert */}
+          {error && (
+            <Alert 
+              severity="error" 
+              sx={{ mb: 3, borderRadius: 2 }}
+              onClose={() => setError('')}
+            >
+              {error}
+            </Alert>
+          )}
+
           <LogoBox>
             <Typography className="logo-text">worksy</Typography>
             <Typography className="logo-sub">Payroll</Typography>
@@ -208,12 +230,6 @@ const ModernLoginForm: React.FC<ModernLoginFormProps> = ({ onSubmit, onSocialAut
           >
             Sign in to access your payroll dashboard
           </Typography>
-
-          {error && (
-            <Alert severity="error" sx={{ mb: 2, borderRadius: 1 }}>
-              {error}
-            </Alert>
-          )}
 
           <Box sx={{ display: 'flex', gap: 2, mb: 3 }}>
             <SocialButton
