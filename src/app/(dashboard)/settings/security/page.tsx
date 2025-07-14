@@ -107,6 +107,13 @@ export default function SecurityPage() {
     }));
   };
 
+  const togglePasswordVisibility = (field: string) => {
+    setPasswordData(prev => ({
+      ...prev,
+      [field]: !prev[field as keyof typeof prev]
+    }));
+  };
+
   const handleMfaSettingChange = (field: string, value: any) => {
     setMfaSettings(prev => ({
       ...prev,
@@ -225,7 +232,7 @@ export default function SecurityPage() {
                     />
                     <button
                       type="button"
-                      onClick={() => handlePasswordChange('showCurrentPassword', !passwordData.showCurrentPassword)}
+                      onClick={() => togglePasswordVisibility('showCurrentPassword')}
                       style={{
                         position: 'absolute',
                         right: '0.75rem',
@@ -254,7 +261,7 @@ export default function SecurityPage() {
                     />
                     <button
                       type="button"
-                      onClick={() => handlePasswordChange('showNewPassword', !passwordData.showNewPassword)}
+                      onClick={() => togglePasswordVisibility('showNewPassword')}
                       style={{
                         position: 'absolute',
                         right: '0.75rem',
@@ -283,7 +290,7 @@ export default function SecurityPage() {
                     />
                     <button
                       type="button"
-                      onClick={() => handlePasswordChange('showConfirmPassword', !passwordData.showConfirmPassword)}
+                      onClick={() => togglePasswordVisibility('showConfirmPassword')}
                       style={{
                         position: 'absolute',
                         right: '0.75rem',
