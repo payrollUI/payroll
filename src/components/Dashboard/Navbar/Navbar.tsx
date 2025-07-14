@@ -12,8 +12,12 @@ const employees = [
   'Anurag Kumar',
 ];
 
-const Navbar = () => {
-   const [query, setQuery] = useState('');
+interface NavbarProps {
+  userName?: string | null;
+}
+
+const Navbar: React.FC<NavbarProps> = ({ userName }) => {
+  const [query, setQuery] = useState('');
   const [showDropdown, setShowDropdown] = useState(false);
 
   const filteredEmployees = employees.filter((name) =>
@@ -28,31 +32,30 @@ const Navbar = () => {
           <ChevronDown size={16} style={{color: '#2b2c31', marginTop: 2 }}/>
           <input
             type="text"
-          placeholder="Search Employee"
-          value={query}
-          onChange={(e) => {
-            setQuery(e.target.value);
-            setShowDropdown(true);
-          }}
-          onFocus={() => setShowDropdown(true)}
-          onBlur={() => setTimeout(() => setShowDropdown(false), 150)} // delay to allow clicking dropdown
-          className={styles.searchInput}
+            placeholder="Search Employee"
+            value={query}
+            onChange={(e) => {
+              setQuery(e.target.value);
+              setShowDropdown(true);
+            }}
+            onFocus={() => setShowDropdown(true)}
+            onBlur={() => setTimeout(() => setShowDropdown(false), 150)}
+            className={styles.searchInput}
           />   
-        
-        {showDropdown && query && (
-        <div className={styles.dropdown}>
-          {filteredEmployees.length ? (
-            filteredEmployees.map((name, idx) => (
-              <div key={idx} className={styles.dropdownItem}>
-                {name}
-              </div>
-            ))
-          ) : (
-            <div className={styles.dropdownItem}>No results found</div>
+          {showDropdown && query && (
+            <div className={styles.dropdown}>
+              {filteredEmployees.length ? (
+                filteredEmployees.map((name, idx) => (
+                  <div key={idx} className={styles.dropdownItem}>
+                    {name}
+                  </div>
+                ))
+              ) : (
+                <div className={styles.dropdownItem}>No results found</div>
+              )}
+            </div>
           )}
         </div>
-      )}
-      </div>
       </div>
 
       <div className={styles.rightSection}>
@@ -61,6 +64,9 @@ const Navbar = () => {
           ABC Head office <ChevronDown size={16} />
         </div>
         <button className={styles.iconButton}><NotificationIcon /></button>
+        {userName && (
+          <span style={{ marginRight: 16, fontWeight: 500 }}>Welcome, {userName}</span>
+        )}
         <img
           src="https://randomuser.me/api/portraits/women/1.jpg"
           alt="User"

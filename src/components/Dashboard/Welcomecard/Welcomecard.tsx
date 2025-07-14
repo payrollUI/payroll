@@ -2,13 +2,17 @@ import React from 'react';
 import { X } from 'lucide-react';
 import styles from './Welcomecard.module.css';
 import SetupProgress from './SetupProgress';
-import TaskList from './TaskList';
-import FeatureCard from './FeatureCard';
+import TaskList, { Task } from './TaskList';
+import FeatureCard, { Feature } from './FeatureCard';
 
-const WelcomeCard = () => {
+interface WelcomeCardProps {
+  onClose: () => void;
+}
+
+const WelcomeCard: React.FC<WelcomeCardProps> = ({ onClose }) => {
   const user = { name: 'Biplob Chakraborty' };
   const progress = { completed: 7, total: 7 };
-  const completedTasks = [
+  const completedTasks: Task[] = [
     { id: 1, title: 'Add Organisation Details >', status: 'COMPLETED' },
     { id: 2, title: 'Provide your Tax Details >', status: 'COMPLETED' },
     { id: 3, title: 'Configure your Pay Schedule >', status: 'COMPLETED' },
@@ -17,7 +21,7 @@ const WelcomeCard = () => {
     { id: 6, title: 'Add Employees >', status: 'Pending' },
     { id: 7, title: 'Configure Prior Payroll >', status: 'Pending' }
   ];
-  const additionalFeatures = [
+  const additionalFeatures: Feature[] = [
     {
       icon: 'Building2',
       title: 'Direct Deposit',
@@ -37,7 +41,7 @@ const WelcomeCard = () => {
 
   return (
     <div className={styles.welcomeCard}>
-      <button className={styles.closeBtn}>
+      <button className={styles.closeBtn} onClick={onClose}>
         <X size={20} />
       </button>
 

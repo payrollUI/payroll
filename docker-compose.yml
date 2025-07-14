@@ -9,7 +9,10 @@ services:
     ports:
       - "3000:3000"
     environment:
-      - NODE_ENV=production
+      - NODE_ENV=development
+      - NEXTAUTH_URL=http://localhost:3000
+    env_file:
+      - .env.local
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:3000/api/health"]
@@ -17,3 +20,11 @@ services:
       timeout: 10s
       retries: 3
       start_period: 40s
+    volumes:
+      - ./logs:/app/logs
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

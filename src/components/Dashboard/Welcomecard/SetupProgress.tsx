@@ -1,7 +1,17 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import styles from './Welcomecard.module.css';
 
-const SetupProgress = ({ progress, children }) => {
+export type Progress = {
+  completed: number;
+  total: number;
+};
+
+interface SetupProgressProps {
+  progress: Progress;
+  children?: ReactNode;
+}
+
+const SetupProgress: React.FC<SetupProgressProps> = ({ progress, children }) => {
   const percentage = (progress.completed / progress.total) * 100;
 
   return (

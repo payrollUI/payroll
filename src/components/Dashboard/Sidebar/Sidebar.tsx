@@ -5,59 +5,100 @@ import {
   ChevronDown, ChevronUp, LayoutDashboard, Users, DollarSign, CheckCircle,
   FileText, TrendingUp, Settings, HelpCircle, Lightbulb
 } from 'lucide-react';
+import { useRouter, usePathname } from 'next/navigation';
 
 const sidebarItems = [
   {
     label: 'Dashboard',
-    icon: LayoutDashboard
+    icon: LayoutDashboard,
+    path: '/dashboard'
   },
   {
     label: 'Employees',
-    icon: Users
+    icon: Users,
+    path: '/employees'
   },
   {
     label: 'Pay Runs',
-    icon: DollarSign
+    icon: DollarSign,
+    path: '/pay-run'
   },
   {
     label: 'Approvals',
     icon: CheckCircle,
-    submenu: ['Pending', 'Reviewed']
+    submenu: [
+      { label: 'Pending', path: '/approvals/pending' },
+      { label: 'Reviewed', path: '/approvals/reviewed' }
+    ]
   },
   {
     label: 'Taxes and Forms',
     icon: FileText,
-    submenu: ['Form 16', 'Form 24Q']
+    submenu: [
+      { label: 'Form 16', path: '/taxes-and-forms/form-16' },
+      { label: 'Form 24Q', path: '/taxes-and-forms/form-24q' }
+    ]
   },
   {
     label: 'Loans',
-    icon: TrendingUp
+    icon: TrendingUp,
+    path: '/loans'
   },
   {
     label: 'Documents',
-    icon: FileText
+    icon: FileText,
+    path: '/documents'
   },
   {
     label: 'Reports',
-    icon: TrendingUp
+    icon: TrendingUp,
+    path: '/reports'
   },
   {
     label: 'Settings',
-    icon: Settings
+    icon: Settings,
+    path: '/settings'
   }
 ];
 
 const Sidebar = () => {
-  const [activeLabel, setActiveLabel] = useState('Dashboard');
+  const router = useRouter();
+  const pathname = usePathname();
+
+  // Helper to find the label for the current path
+  const getLabelByPath = (path: string) => {
+    for (const item of sidebarItems) {
+      if (item.path === path) return item.label;
+      if (item.submenu) {
+        const found = item.submenu.find((sub: any) => sub.path === path);
+        if (found) return found.label;
+      }
+    }
+    return 'Dashboard'; // fallback
+  };
+
+  const [activeLabel, setActiveLabel] = useState(() => getLabelByPath(pathname));
   const [openSubmenu, setOpenSubmenu] = useState<string | null>(null);
 
-  const handleItemClick = (label: string, hasSubmenu: boolean) => {
+  React.useEffect(() => {
+    setActiveLabel(getLabelByPath(pathname));
+  }, [pathname]);
+
+  const handleItemClick = (label: string, hasSubmenu: boolean, path?: string) => {
+    console.log(label, hasSubmenu, path);
     setActiveLabel(label);
     if (hasSubmenu) {
       setOpenSubmenu(openSubmenu === label ? null : label);
     } else {
       setOpenSubmenu(null);
+      if (path) router.push(path);
     }
+  };
+
+  const handleSubmenuClick = (sub: { label: string; path: string }) => {
+    setActiveLabel(sub.label);
+    setOpenSubmenu(null);
+    router.push(sub.path);
   };
 
   return (
@@ -74,7 +115,7 @@ const Sidebar = () => {
               className={`${styles.sidebar_item} ${
                 activeLabel === item.label ? styles.active : ''
               }`}
-              onClick={() => handleItemClick(item.label, !!item.submenu)}
+              onClick={() => handleItemClick(item.label, !!item.submenu, item.path)}
             >
               <item.icon width={28} height={28} style={{ marginRight: 12 }} />
               <span className={styles.label}>{item.label}</span>
@@ -89,9 +130,14 @@ const Sidebar = () => {
 
             {item.submenu && openSubmenu === item.label && (
               <div className={styles.submenu}>
-                {item.submenu.map((sub, idx) => (
-                  <div key={idx} className={styles.submenu_item}>
-                    {sub}
+                {item.submenu.map((sub: any, idx: number) => (
+                  <div
+                    key={idx}
+                    className={styles.submenu_item}
+                    onClick={() => handleSubmenuClick(sub)}
+                    style={{ cursor: 'pointer' }}
+                  >
+                    {sub.label}
                   </div>
                 ))}
               </div>
