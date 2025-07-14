@@ -1,0 +1,404 @@
+/* Settings Pages Styles */
+.settingsContainer {
+  padding: 2rem;
+  background: #f8fafc;
+  min-height: 100vh;
+}
+
+.settingsHeader {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.headerIcon {
+  width: 64px;
+  height: 64px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  flex-shrink: 0;
+}
+
+.settingsTitle {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0;
+}
+
+.settingsSubtitle {
+  font-size: 1rem;
+  color: #6b7280;
+  margin: 0.5rem 0 0 0;
+  line-height: 1.5;
+}
+
+.settingsContent {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e5e7eb;
+  overflow: hidden;
+}
+
+.formSection {
+  padding: 2rem;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.formSection:last-child {
+  border-bottom: none;
+}
+
+.sectionTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0 0 1.5rem 0;
+}
+
+.formGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.formLabel {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 0.25rem;
+}
+
+.formInput {
+  padding: 0.75rem 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  background: white;
+  color: #374151;
+}
+
+.formInput:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.formInput::placeholder {
+  color: #9ca3af;
+}
+
+.formTextarea {
+  padding: 0.75rem 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  background: white;
+  color: #374151;
+  resize: vertical;
+  min-height: 100px;
+  font-family: inherit;
+}
+
+.formTextarea:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.formTextarea::placeholder {
+  color: #9ca3af;
+}
+
+.formSelect {
+  padding: 0.75rem 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  background: white;
+  color: #374151;
+  cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.formSelect:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.formActions {
+  padding: 2rem;
+  background: #f9fafb;
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+}
+
+.saveButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #667eea;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.saveButton:hover {
+  background: #5a67d8;
+}
+
+.cancelButton {
+  background: transparent;
+  color: #6b7280;
+  border: 1px solid #d1d5db;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s, border-color 0.2s;
+}
+
+.cancelButton:hover {
+  background: #f3f4f6;
+  border-color: #9ca3af;
+}
+
+/* Form Validation */
+.formGroup.error .formInput,
+.formGroup.error .formTextarea,
+.formGroup.error .formSelect {
+  border-color: #ef4444;
+}
+
+.formGroup.error .formInput:focus,
+.formGroup.error .formTextarea:focus,
+.formGroup.error .formSelect:focus {
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+}
+
+.errorMessage {
+  font-size: 0.75rem;
+  color: #ef4444;
+  margin-top: 0.25rem;
+}
+
+.successMessage {
+  font-size: 0.75rem;
+  color: #10b981;
+  margin-top: 0.25rem;
+}
+
+/* Toggle Switch */
+.toggleGroup {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  background: #f9fafb;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+}
+
+.toggleLabel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.toggleTitle {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #374151;
+}
+
+.toggleDescription {
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+.toggleSwitch {
+  position: relative;
+  width: 48px;
+  height: 24px;
+  background: #d1d5db;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.toggleSwitch.active {
+  background: #667eea;
+}
+
+.toggleSwitch::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 20px;
+  height: 20px;
+  background: white;
+  border-radius: 50%;
+  transition: transform 0.2s;
+}
+
+.toggleSwitch.active::after {
+  transform: translateX(24px);
+}
+
+/* Card Layout */
+.settingsCard {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e5e7eb;
+  margin-bottom: 1.5rem;
+  overflow: hidden;
+}
+
+.cardHeader {
+  padding: 1.5rem 2rem;
+  border-bottom: 1px solid #f3f4f6;
+  background: #f9fafb;
+}
+
+.cardTitle {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0;
+}
+
+.cardDescription {
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin: 0.5rem 0 0 0;
+}
+
+.cardContent {
+  padding: 2rem;
+}
+
+/* Info Box */
+.infoBox {
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.infoTitle {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #1e40af;
+  margin: 0 0 0.5rem 0;
+}
+
+.infoText {
+  font-size: 0.75rem;
+  color: #1e40af;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* List Items */
+.listItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.listItem:last-child {
+  border-bottom: none;
+}
+
+.listItemContent {
+  flex: 1;
+}
+
+.listItemTitle {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #374151;
+  margin: 0 0 0.25rem 0;
+}
+
+.listItemDescription {
+  font-size: 0.75rem;
+  color: #6b7280;
+  margin: 0;
+}
+
+.listItemAction {
+  flex-shrink: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .settingsContainer {
+    padding: 1rem;
+  }
+  
+  .settingsHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+  }
+  
+  .settingsTitle {
+    font-size: 1.5rem;
+  }
+  
+  .formGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .formSection {
+    padding: 1.5rem;
+  }
+  
+  .formActions {
+    padding: 1.5rem;
+    flex-direction: column;
+  }
+  
+  .saveButton,
+  .cancelButton {
+    justify-content: center;
+  }
+  
+  .cardContent {
+    padding: 1.5rem;
+  }
+  
+  .cardHeader {
+    padding: 1.5rem;
+  }
+} 

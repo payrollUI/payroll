@@ -2,8 +2,9 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { redirect } from 'next/navigation';
 import Sidebar from '@/components/Dashboard/Sidebar/Sidebar';
-import Navbar from '@/components/Dashboard/Navbar/Navbar';
+import EnhancedNavbar from '@/components/Dashboard/Navbar/EnhancedNavbar';
 import React from 'react';
+import styles from './layout.module.css';
 
 export default async function DashboardLayout({
   children,
@@ -17,17 +18,18 @@ export default async function DashboardLayout({
   }
 
   return (
-    <section>
-    <header style={{ padding: '1rem', borderBottom: '1px solid #ccc' }}>
-        Welcome, {session.user?.name}
-      </header>
-    <div style={{ display: 'flex', minHeight: '100vh' }}>
+    <div className={styles.layout}>
       <Sidebar />
-      <main style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-        <Navbar userName={session.user?.name} />
-        <div style={{ flex: 1 }}>{children}</div>
+      <main className={styles.main}>
+        <EnhancedNavbar 
+          userName={session.user?.name} 
+          userEmail={session.user?.email}
+          userImage={session.user?.image}
+        />
+        <div className={styles.content}>
+          {children}
+        </div>
       </main>
     </div>
-    </section>
   );
 } 

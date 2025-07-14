@@ -1,10 +1,13 @@
 'use client';
 
 import React from 'react';
-import AuthForm from '../Auth/AuthForm';
+import { useRouter } from 'next/navigation';
+import ModernSignUpForm from '../Auth/ModernSignUpForm';
 
 const SignUpForm: React.FC = () => {
-  const handleSubmit = async (data: { email: string; password: string }) => {
+  const router = useRouter();
+
+  const handleSubmit = async (data: { email: string; password: string; name: string; company: string }) => {
     try {
       // Your signup logic here
       console.log('Signing up with:', data);
@@ -18,7 +21,7 @@ const SignUpForm: React.FC = () => {
       // 
       // if (result.ok) {
       //   // Redirect to verification page or login
-      //   window.location.href = '/verify-email';
+      //   router.push('/verify-email');
       // } else {
       //   const error = await result.json();
       //   throw new Error(error.message || 'Signup failed');
@@ -26,10 +29,12 @@ const SignUpForm: React.FC = () => {
       
       // For demo purposes - simulate API call
       await new Promise(resolve => setTimeout(resolve, 1000));
-      alert('Account created successfully! (Demo)');
+      
+      // Redirect to login page after successful signup
+      router.push('/login');
     } catch (error) {
       console.error('Signup error:', error);
-      alert('Signup failed. Please try again.');
+      throw new Error('Signup failed. Please try again.');
     }
   };
 
@@ -54,8 +59,7 @@ const SignUpForm: React.FC = () => {
   };
 
   return (
-    <AuthForm 
-      mode="signup" 
+    <ModernSignUpForm 
       onSubmit={handleSubmit}
       onSocialAuth={handleSocialAuth}
     />
