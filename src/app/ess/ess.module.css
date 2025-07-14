@@ -1,0 +1,424 @@
+/* ESS Page Styles */
+.essContainer {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* Header */
+.header {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  padding: 1rem 2rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.logo {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+
+.logoText {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: white;
+  text-transform: lowercase;
+}
+
+.logoSub {
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 400;
+}
+
+/* Content */
+.content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+/* Welcome Section */
+.welcomeSection {
+  margin-bottom: 2rem;
+}
+
+.welcomeCard {
+  background: white;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.employeeInfo {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.employeeAvatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid #667eea;
+}
+
+.employeeDetails h1 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: #1f2937;
+  font-weight: 600;
+}
+
+.employeePosition {
+  margin: 0.25rem 0;
+  color: #667eea;
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+.employeeId {
+  margin: 0;
+  color: #6b7280;
+  font-size: 0.875rem;
+}
+
+.contactInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.contactItem {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #6b7280;
+  font-size: 0.875rem;
+}
+
+.contactItem svg {
+  color: #667eea;
+}
+
+/* Services Grid */
+.servicesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.serviceCard {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  border-left: 4px solid transparent;
+  transition: transform 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+}
+
+.serviceCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+.serviceCard.blue { border-left-color: #3b82f6; }
+.serviceCard.green { border-left-color: #10b981; }
+.serviceCard.purple { border-left-color: #8b5cf6; }
+.serviceCard.orange { border-left-color: #f59e0b; }
+.serviceCard.teal { border-left-color: #14b8a6; }
+.serviceCard.indigo { border-left-color: #6366f1; }
+
+.serviceIcon {
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+  background: #f8fafc;
+}
+
+.blue .serviceIcon { background: #dbeafe; color: #3b82f6; }
+.green .serviceIcon { background: #d1fae5; color: #10b981; }
+.purple .serviceIcon { background: #ede9fe; color: #8b5cf6; }
+.orange .serviceIcon { background: #fef3c7; color: #f59e0b; }
+.teal .serviceIcon { background: #ccfbf1; color: #14b8a6; }
+.indigo .serviceIcon { background: #e0e7ff; color: #6366f1; }
+
+.serviceTitle {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.serviceDescription {
+  margin: 0 0 1rem 0;
+  color: #6b7280;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.serviceButton {
+  background: #667eea;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  width: 100%;
+}
+
+.serviceButton:hover {
+  background: #5a67d8;
+}
+
+/* Widgets Container */
+.widgetsContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.widget {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+}
+
+.widgetHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 1.5rem 1rem 1.5rem;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.widgetHeader h3 {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.viewAllButton {
+  background: transparent;
+  border: 1px solid #667eea;
+  color: #667eea;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.viewAllButton:hover {
+  background: #667eea;
+  color: white;
+}
+
+.widgetContent {
+  padding: 1rem 1.5rem 1.5rem 1.5rem;
+}
+
+/* Payslip Items */
+.payslipItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.payslipItem:last-child {
+  border-bottom: none;
+}
+
+.payslipInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.payslipMonth {
+  font-weight: 500;
+  color: #1f2937;
+}
+
+.payslipAmount {
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.payslipActions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.payslipStatus {
+  background: #d1fae5;
+  color: #065f46;
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.downloadButton {
+  background: transparent;
+  border: none;
+  color: #667eea;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.downloadButton:hover {
+  background: #f3f4f6;
+}
+
+/* Leave Items */
+.leaveItem {
+  margin-bottom: 1rem;
+}
+
+.leaveItem:last-child {
+  margin-bottom: 0;
+}
+
+.leaveInfo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.leaveType {
+  font-weight: 500;
+  color: #1f2937;
+}
+
+.leaveBalance {
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.leaveBar {
+  height: 8px;
+  background: #f3f4f6;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.leaveProgress {
+  height: 100%;
+  background: linear-gradient(90deg, #667eea, #764ba2);
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+/* Quick Links */
+.quickLinks {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  margin-bottom: 2rem;
+}
+
+.quickLinks h3 {
+  margin: 0 0 1rem 0;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.linksGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.quickLink {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem;
+  background: #f8fafc;
+  border-radius: 8px;
+  text-decoration: none;
+  color: #374151;
+  transition: background-color 0.2s;
+}
+
+.quickLink:hover {
+  background: #f1f5f9;
+  color: #667eea;
+}
+
+.quickLink svg {
+  color: #667eea;
+}
+
+/* Footer */
+.footer {
+  text-align: center;
+  padding: 2rem;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.875rem;
+}
+
+.footer p {
+  margin: 0.25rem 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .content {
+    padding: 1rem;
+  }
+  
+  .welcomeCard {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .employeeInfo {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  
+  .servicesGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .widgetsContainer {
+    grid-template-columns: 1fr;
+  }
+  
+  .linksGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .header {
+    padding: 1rem;
+  }
+} 

@@ -1,7 +1,17 @@
 import React from 'react';
 import styles from './Welcomecard.module.css';
 
-const TaskList = ({ tasks }) => (
+export type Task = {
+  id: number;
+  title: string;
+  status: string;
+};
+
+interface TaskListProps {
+  tasks: Task[];
+}
+
+const TaskList: React.FC<TaskListProps> = ({ tasks }) => (
   <ul className={styles.taskList}>
     {tasks.map(task => (
       <li key={task.id} className={styles.taskRow}>

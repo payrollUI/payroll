@@ -8,7 +8,17 @@ const iconMap = {
   Bell: Bell
 };
 
-const FeatureCard = ({ feature }) => {
+export type Feature = {
+  icon: keyof typeof iconMap;
+  title: string;
+  description: string;
+};
+
+interface FeatureCardProps {
+  feature: Feature;
+}
+
+const FeatureCard: React.FC<FeatureCardProps> = ({ feature }) => {
   const Icon = iconMap[feature.icon] || FileText;
   return (
     <div className={styles.featureCard}>
