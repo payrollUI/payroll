@@ -6,5 +6,13 @@
     "name": "anurag",
     "company": "mind",
     "createdAt": "2025-07-14T18:23:36.263Z"
+  },
+  {
+    "id": "1752535188590",
+    "email": "demo@user.com",
+    "password": "$2b$12$P4nhsoCQWPF.ZtgdkBXD2.7BbezCDuO2NuBrUljwQCQF052vGdYR.",
+    "name": "DemoUser",
+    "company": "TestingCompany",
+    "createdAt": "2025-07-14T23:19:48.590Z"
   }
 ]
