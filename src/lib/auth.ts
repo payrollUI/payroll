@@ -40,6 +40,7 @@ declare module "next-auth" {
       email: string;
       name: string;
       company?: string;
+      image?: string | null;
     }
   }
 }
@@ -49,6 +50,7 @@ declare module "next-auth/jwt" {
     accessToken?: string;
     id: string;
     company?: string;
+    picture?: string | null;
   }
 }
 
@@ -83,7 +85,8 @@ export const authOptions: NextAuthOptions = {
             id: user.id,
             email: user.email,
             name: user.name,
-            company: user.company
+            company: user.company,
+            image: null // Email/password users don't have profile images
           };
         } catch (error) {
           console.error('Auth error:', error);
@@ -131,6 +134,7 @@ export const authOptions: NextAuthOptions = {
       if (user) {
         token.id = user.id;
         token.company = (user as any).company;
+        token.picture = user.image;
       }
       return token;
     },
@@ -139,6 +143,7 @@ export const authOptions: NextAuthOptions = {
       if (token.id) {
         session.user.id = token.id;
         session.user.company = token.company;
+        session.user.image = token.picture;
       }
       return session;
     }
