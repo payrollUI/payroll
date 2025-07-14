@@ -79,6 +79,46 @@ Before running this project, make sure you have the following installed:
    npm start
    ```
 
+## 🚀 GitHub Pages Deployment
+
+### Automated Deployment with GitHub Actions
+
+This project is configured for automatic deployment to GitHub Pages from the `version2` branch.
+
+#### Setup Instructions:
+
+1. **Enable GitHub Pages**:
+   - Go to your repository Settings → Pages
+   - Set Source to "GitHub Actions"
+   - Save the configuration
+
+2. **Update Repository Name**:
+   - Edit `next.config.ts` and replace `your-repo-name` with your actual repository name
+   - Example: If your repo is `my-company/payroll-app`, use `/payroll-app`
+
+3. **Push to version2 branch**:
+   ```bash
+   git checkout version2
+   git add .
+   git commit -m "Configure GitHub Pages deployment"
+   git push origin version2
+   ```
+
+4. **Monitor Deployment**:
+   - Go to Actions tab in your repository
+   - Watch the "Deploy Next.js to GitHub Pages" workflow
+   - Your site will be available at: `https://your-username.github.io/your-repo-name`
+
+#### Manual Deployment (if needed):
+```bash
+# Build for static export
+npm run build
+
+# The static files will be in the `out` directory
+# You can serve them with any static file server
+npx serve out
+```
+
 ## 🐳 Docker Deployment
 
 ### Option 1: Using Docker Compose (Recommended)
