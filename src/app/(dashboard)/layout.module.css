@@ -1,9 +1,10 @@
 /* Dashboard Layout Styles */
 .layout {
   display: flex;
-  min-height: 100vh;
+  height: 100vh; /* Fixed height to prevent body scroll */
   background: #f8fafc;
   position: relative;
+  overflow: hidden; /* Prevent any overflow on the main container */
 }
 
 .main {
@@ -11,16 +12,27 @@
   display: flex;
   flex-direction: column;
   margin-left: 280px; /* Account for fixed sidebar width */
-  min-height: 100vh;
+  height: 100vh; /* Fixed height */
   position: relative;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  padding-top: 83px; /* Account for fixed navbar height */
 }
 
 .content {
   flex: 1;
   padding: 0;
+  background: #f8fafc;
+  position: relative;
+  transition: padding-top 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  /* Add overflow to content container for proper scrolling */
   overflow-y: auto;
   overflow-x: hidden;
-  max-height: calc(100vh - 83px); /* Account for navbar height */
+  height: calc(100vh - 83px); /* Fixed height minus navbar */
+}
+
+/* Mobile navigation state - add top padding to account for horizontal nav */
+.mainWithMobileNav .content {
+  padding-top: 0; /* Horizontal nav is positioned fixed, so no padding needed */
 }
 
 /* Responsive adjustments */
@@ -30,8 +42,50 @@
   }
 }
 
+/* Mobile First Design for 2025 */
 @media (max-width: 768px) {
   .main {
     margin-left: 0;
+    width: 100%;
+    padding-top: 75px; /* Account for smaller mobile navbar */
+  }
+  
+  .content {
+    height: calc(100vh - 75px); /* Smaller navbar on mobile */
+    padding: 0;
+  }
+  
+  .mainWithMobileNav .content {
+    /* No additional adjustments needed for horizontal nav */
+    padding-top: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .main {
+    padding-top: 70px; /* Account for smallest mobile navbar */
+  }
+  
+  .content {
+    height: calc(100vh - 70px); /* Even smaller navbar on small mobile */
+  }
+}
+
+/* Accessibility improvements */
+@media (prefers-reduced-motion: reduce) {
+  .main,
+  .content {
+    transition: none;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .layout {
+    border: 1px solid;
+  }
+  
+  .main {
+    border-left: 1px solid;
   }
 } 
