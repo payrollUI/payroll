@@ -14,6 +14,9 @@ import {
   MapPin,
   ExternalLink 
 } from 'lucide-react';
+import { IconButton } from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu';
+import CloseIcon from '@mui/icons-material/Close';
 import styles from './EnhancedNavbar.module.css';
 import {
   mockEmployees,
@@ -30,12 +33,16 @@ interface EnhancedNavbarProps {
   userName?: string | null;
   userEmail?: string | null;
   userImage?: string | null;
+  onMobileMenuToggle?: () => void;
+  isMobileMenuOpen?: boolean;
 }
 
 const EnhancedNavbar: React.FC<EnhancedNavbarProps> = ({ 
   userName, 
   userEmail, 
-  userImage 
+  userImage,
+  onMobileMenuToggle,
+  isMobileMenuOpen = false
 }) => {
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState('');
@@ -44,11 +51,24 @@ const EnhancedNavbar: React.FC<EnhancedNavbarProps> = ({
   const [showNotificationDropdown, setShowNotificationDropdown] = useState(false);
   const [showOfficeDropdown, setShowOfficeDropdown] = useState(false);
   const [selectedOffice, setSelectedOffice] = useState(mockOffices[0]);
+  const [isMobile, setIsMobile] = useState(false);
 
   const searchRef = useRef<HTMLDivElement>(null);
   const userRef = useRef<HTMLDivElement>(null);
   const notificationRef = useRef<HTMLDivElement>(null);
   const officeRef = useRef<HTMLDivElement>(null);
+
+  // Check if device is mobile
+  useEffect(() => {
+    const checkIsMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    
+    checkIsMobile();
+    window.addEventListener('resize', checkIsMobile);
+    
+    return () => window.removeEventListener('resize', checkIsMobile);
+  }, []);
 
   // Close dropdowns when clicking outside
   useEffect(() => {
@@ -149,73 +169,116 @@ const EnhancedNavbar: React.FC<EnhancedNavbarProps> = ({
   return (
     <header className={styles.navbar}>
       <div className={styles.leftSection}>
-        {/* Enhanced Search Box */}
-        <div className={styles.searchContainer} ref={searchRef}>
-          <div className={styles.searchBox}>
-            <Search size={18} className={styles.searchIcon} />
-            <ChevronDown size={16} className={styles.searchChevron} />
-            <input
-              type="text"
-              placeholder="Search Employee"
-              value={searchQuery}
-              onChange={(e) => {
-                setSearchQuery(e.target.value);
-                setShowSearchDropdown(true);
-              }}
-              onFocus={() => setShowSearchDropdown(true)}
-              className={styles.searchInput}
-            />
-            {showSearchDropdown && searchQuery && (
-              <div className={styles.searchDropdown}>
-                {filteredEmployees.length > 0 ? (
-                  filteredEmployees.map((employee) => (
-                    <div
-                      key={employee.id}
-                      className={styles.searchDropdownItem}
-                      onClick={() => handleEmployeeSelect(employee)}
-                    >
-                      <img 
-                        src={employee.avatar} 
-                        alt={employee.name}
-                        className={styles.employeeAvatar}
-                      />
-                      <div className={styles.employeeInfo}>
-                        <div className={styles.employeeName}>{employee.name}</div>
-                        <div className={styles.employeePosition}>{employee.position}</div>
+        {/* Mobile Hamburger Menu */}
+        {isMobile && (
+          <IconButton
+            className={styles.mobileMenuButton}
+            onClick={onMobileMenuToggle}
+            aria-label="Toggle mobile menu"
+            sx={{ 
+              color: '#374151',
+              marginRight: '0.75rem',
+              '&:hover': {
+                backgroundColor: 'rgba(55, 65, 81, 0.1)'
+              }
+            }}
+          >
+            {isMobileMenuOpen ? <CloseIcon /> : <MenuIcon />}
+          </IconButton>
+        )}
+
+        {/* Search Container - Desktop only */}
+        {!isMobile && (
+          <div className={styles.searchContainer} ref={searchRef}>
+            <div className={styles.searchBox}>
+              <Search size={16} className={styles.searchIcon} />
+              <ChevronDown size={14} className={styles.searchChevron} />
+              <input
+                type="text"
+                placeholder="Search Employee"
+                value={searchQuery}
+                onChange={(e) => {
+                  setSearchQuery(e.target.value);
+                  setShowSearchDropdown(true);
+                }}
+                onFocus={() => setShowSearchDropdown(true)}
+                onBlur={() => setTimeout(() => setShowSearchDropdown(false), 150)}
+                className={styles.searchInput}
+              />
+              
+              {showSearchDropdown && searchQuery && (
+                <div className={styles.searchDropdown}>
+                  {filteredEmployees.length > 0 ? (
+                    filteredEmployees.slice(0, 5).map((employee: Employee) => (
+                      <div
+                        key={employee.id}
+                        className={styles.searchDropdownItem}
+                        onClick={() => handleEmployeeSelect(employee)}
+                      >
+                        <img
+                          src={employee.avatar}
+                          alt={employee.name}
+                          className={styles.employeeAvatar}
+                        />
+                        <div className={styles.employeeInfo}>
+                          <div className={styles.employeeName}>{employee.name}</div>
+                          <div className={styles.employeePosition}>{employee.position}</div>
+                        </div>
                       </div>
+                    ))
+                  ) : (
+                    <div className={styles.searchDropdownItem}>
+                      No employees found
                     </div>
-                  ))
-                ) : (
-                  <div className={styles.searchDropdownItem}>
-                    <span>No employees found</span>
-                  </div>
-                )}
-              </div>
-            )}
+                  )}
+                </div>
+              )}
+            </div>
           </div>
-        </div>
+        )}
       </div>
 
+      {/* Right Section - Always visible with responsive design */}
       <div className={styles.rightSection}>
-        {/* Go to ESS Button */}
+        {/* Go to ESS Button - Always visible with responsive design */}
         <button 
-          className={styles.essButton}
+          className={`${styles.essButton} ${isMobile ? styles.mobileEssButton : ''}`}
           onClick={handleESSClick}
           title="Go to Employee Self Service"
         >
-          Go to ESS
-          <ExternalLink size={14} className={styles.essIcon} />
+          {isMobile ? (
+            /* Mobile: Show only icon or abbreviated text */
+            <>
+              <span className={styles.mobileEssText}>ESS</span>
+              <ExternalLink size={14} className={styles.essIcon} />
+            </>
+          ) : (
+            /* Desktop: Show full text */
+            <>
+              Go to ESS
+              <ExternalLink size={14} className={styles.essIcon} />
+            </>
+          )}
         </button>
 
-        {/* Office Dropdown */}
+        {/* Office Dropdown - Always visible */}
         <div className={styles.officeContainer} ref={officeRef}>
           <button
-            className={styles.officeButton}
+            className={`${styles.officeButton} ${isMobile ? styles.mobileOfficeButton : ''}`}
             onClick={() => setShowOfficeDropdown(!showOfficeDropdown)}
+            title={isMobile ? selectedOffice.shortName || selectedOffice.name : selectedOffice.name}
           >
-            <MapPin size={16} className={styles.officeIcon} />
-            {selectedOffice.name}
-            <ChevronDown size={16} className={styles.chevronIcon} />
+            <MapPin size={isMobile ? 18 : 16} className={styles.officeIcon} />
+            {isMobile ? (
+              /* Mobile: Show only short name or abbreviated */
+              <span className={styles.mobileOfficeName}>
+                {selectedOffice.shortName || selectedOffice.name.split(' ')[0]}
+              </span>
+            ) : (
+              /* Desktop: Show full name */
+              <span className={styles.officeName}>{selectedOffice.name}</span>
+            )}
+            <ChevronDown size={isMobile ? 14 : 16} className={styles.chevronIcon} />
           </button>
           
           {showOfficeDropdown && (
@@ -239,29 +302,32 @@ const EnhancedNavbar: React.FC<EnhancedNavbarProps> = ({
           )}
         </div>
 
-        {/* Notification Dropdown */}
+        {/* Notification Dropdown - Always visible */}
         <div className={styles.notificationContainer} ref={notificationRef}>
           <button
-            className={styles.notificationButton}
+            className={`${styles.notificationButton} ${isMobile ? styles.mobileNotificationButton : ''}`}
             onClick={() => setShowNotificationDropdown(!showNotificationDropdown)}
             title="Notifications"
           >
-            <Bell size={20} />
+            <Bell size={isMobile ? 20 : 20} className={styles.notificationIcon} />
             {unreadCount > 0 && (
-              <span className={styles.notificationBadge}>{unreadCount}</span>
+              <span className={styles.notificationBadge}>
+                {unreadCount > 9 ? '9+' : unreadCount}
+              </span>
             )}
           </button>
-
+          
           {showNotificationDropdown && (
             <div className={styles.notificationDropdown}>
               <div className={styles.notificationHeader}>
                 <h3>Notifications</h3>
                 <span className={styles.notificationCount}>
-                  {unreadCount} new
+                  {unreadCount} unread
                 </span>
               </div>
+              
               <div className={styles.notificationList}>
-                {mockNotifications.slice(0, 5).map((notification) => (
+                {mockNotifications.slice(0, 5).map((notification: Notification) => (
                   <div
                     key={notification.id}
                     className={`${styles.notificationItem} ${
@@ -277,17 +343,23 @@ const EnhancedNavbar: React.FC<EnhancedNavbarProps> = ({
                         {notification.message}
                       </div>
                       <div className={styles.notificationTime}>
-                        {formatTimestamp(notification.timestamp)}
+                        {notification.time}
                       </div>
                     </div>
-                    <div className={`${styles.notificationDot} ${styles[notification.type]}`} />
+                    {!notification.isRead && (
+                      <div className={styles.unreadIndicator}></div>
+                    )}
                   </div>
                 ))}
               </div>
+              
               <div className={styles.notificationFooter}>
                 <button 
                   className={styles.viewAllButton}
-                  onClick={() => router.push('/notifications')}
+                  onClick={() => {
+                    router.push('/notifications');
+                    setShowNotificationDropdown(false);
+                  }}
                 >
                   View All Notifications
                 </button>
@@ -296,29 +368,26 @@ const EnhancedNavbar: React.FC<EnhancedNavbarProps> = ({
           )}
         </div>
 
-        {/* User Profile Dropdown */}
+        {/* User Dropdown - Always visible */}
         <div className={styles.userContainer} ref={userRef}>
           <button
-            className={styles.userButton}
+            className={`${styles.userButton} ${isMobile ? styles.mobileUserButton : ''}`}
             onClick={() => setShowUserDropdown(!showUserDropdown)}
-            title="User Menu"
+            title={userName || mockUserProfile.name}
           >
             <img
               src={userImage || mockUserProfile.avatar}
               alt={userName || mockUserProfile.name}
-              className={styles.userAvatar}
+              className={`${styles.userAvatar} ${isMobile ? styles.mobileUserAvatar : ''}`}
             />
-            <div className={styles.userInfo}>
-              <div className={styles.userName}>
+            {!isMobile && (
+              <span className={styles.userName}>
                 {userName || mockUserProfile.name}
-              </div>
-              <div className={styles.userEmail}>
-                {userEmail || mockUserProfile.email}
-              </div>
-            </div>
-            <ChevronDown size={16} className={styles.chevronIcon} />
+              </span>
+            )}
+            <ChevronDown size={isMobile ? 14 : 16} className={styles.userChevron} />
           </button>
-
+          
           {showUserDropdown && (
             <div className={styles.userDropdown}>
               <div className={styles.userDropdownHeader}>

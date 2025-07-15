@@ -27,12 +27,14 @@ export interface Notification {
   message: string;
   type: 'info' | 'warning' | 'success' | 'error';
   timestamp: string;
+  time: string;
   isRead: boolean;
 }
 
 export interface Office {
   id: string;
   name: string;
+  shortName?: string;
   location: string;
   isHeadOffice: boolean;
 }
@@ -142,6 +144,7 @@ export const mockNotifications: Notification[] = [
     message: 'Monthly payroll processing is due in 3 days',
     type: 'warning',
     timestamp: '2024-01-20T10:30:00Z',
+    time: '2 hours ago',
     isRead: false
   },
   {
@@ -150,6 +153,7 @@ export const mockNotifications: Notification[] = [
     message: 'New employee John Doe has been added to the system',
     type: 'success',
     timestamp: '2024-01-19T14:20:00Z',
+    time: '1 day ago',
     isRead: false
   },
   {
@@ -158,6 +162,7 @@ export const mockNotifications: Notification[] = [
     message: 'Please update tax settings for the new financial year',
     type: 'info',
     timestamp: '2024-01-18T09:15:00Z',
+    time: '2 days ago',
     isRead: true
   },
   {
@@ -166,6 +171,7 @@ export const mockNotifications: Notification[] = [
     message: 'Annual compliance report needs to be submitted',
     type: 'warning',
     timestamp: '2024-01-17T16:45:00Z',
+    time: '3 days ago',
     isRead: false
   }
 ];
@@ -175,18 +181,21 @@ export const mockOffices: Office[] = [
   {
     id: 'office_001',
     name: 'ABC Head Office',
+    shortName: 'Head',
     location: 'Mumbai, India',
     isHeadOffice: true
   },
   {
     id: 'office_002',
     name: 'ABC Bangalore Branch',
+    shortName: 'BLR',
     location: 'Bangalore, India',
     isHeadOffice: false
   },
   {
     id: 'office_003',
     name: 'ABC Delhi Branch',
+    shortName: 'DEL',
     location: 'New Delhi, India',
     isHeadOffice: false
   },

@@ -1,11 +1,15 @@
 'use client';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styles from './Sidebar.module.css';
 import {
   ChevronDown, ChevronUp, LayoutDashboard, Users, DollarSign, CheckCircle,
-  FileText, TrendingUp, Settings, HelpCircle, Lightbulb
+  FileText, TrendingUp, Settings, HelpCircle, Lightbulb, ChevronRight, Search
 } from 'lucide-react';
 import { useRouter, usePathname } from 'next/navigation';
+import {
+  mockEmployees,
+  type Employee
+} from '@/data/PayrollData';
 
 const sidebarItems = [
   {
@@ -72,10 +76,81 @@ const sidebarItems = [
   }
 ];
 
-const Sidebar = () => {
+interface SidebarProps {
+  isOpen?: boolean;
+  onClose?: () => void;
+}
+
+const Sidebar: React.FC<SidebarProps> = ({ isOpen = true, onClose }) => {
   const router = useRouter();
   const pathname = usePathname();
   const [openSubmenu, setOpenSubmenu] = useState<string | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [showSearchDropdown, setShowSearchDropdown] = useState(false);
+  
+  const searchRef = useRef<HTMLDivElement>(null);
+
+  // Check if device is mobile
+  useEffect(() => {
+    const checkIsMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    
+    checkIsMobile();
+    window.addEventListener('resize', checkIsMobile);
+    
+    return () => window.removeEventListener('resize', checkIsMobile);
+  }, []);
+
+  // Close search dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
+        setShowSearchDropdown(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  // Filter employees based on search query
+  const filteredEmployees = mockEmployees.filter((employee: Employee) =>
+    employee.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    employee.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    employee.position.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  // Handle employee selection from search
+  const handleEmployeeSelect = (employee: Employee) => {
+    router.push(`/employees/${employee.id}`);
+    setSearchQuery('');
+    setShowSearchDropdown(false);
+    if (onClose) {
+      onClose();
+    }
+  };
+
+  // Close sidebar when clicking outside on mobile
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (isMobile && isOpen && onClose) {
+        const sidebar = document.querySelector(`.${styles.sidebar}`);
+        const mobileNav = document.querySelector(`.${styles.mobileHorizontalNav}`);
+        const target = event.target as Node;
+        
+        if (sidebar && !sidebar.contains(target) && mobileNav && !mobileNav.contains(target)) {
+          onClose();
+        }
+      }
+    };
+
+    if (isMobile && isOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => document.removeEventListener('mousedown', handleClickOutside);
+    }
+  }, [isMobile, isOpen, onClose]);
 
   // Helper function to check if a path is active
   const isActivePath = (path: string) => {
@@ -138,6 +213,11 @@ const Sidebar = () => {
       // For regular items, navigate and close any open submenu
       setOpenSubmenu(null);
       router.push(item.path);
+      
+      // Close mobile sidebar when navigating
+      if (isMobile && onClose) {
+        onClose();
+      }
     }
   };
 
@@ -145,6 +225,11 @@ const Sidebar = () => {
   const handleSubmenuClick = (submenuItem: { label: string; path: string }) => {
     // Navigate to the submenu item but keep the submenu open
     router.push(submenuItem.path);
+    
+    // Close mobile sidebar when navigating
+    if (isMobile && onClose) {
+      onClose();
+    }
     // The submenu will stay open due to the useEffect above
   };
 
@@ -159,8 +244,209 @@ const Sidebar = () => {
       // Add navigation for What's new when needed
       console.log(`Footer item clicked: ${item}`);
     }
+    
+    // Close mobile sidebar when navigating
+    if (isMobile && onClose) {
+      onClose();
+    }
   };
 
+  // Mobile Horizontal Navigation
+  if (isMobile) {
+    return (
+      <>
+        {/* Mobile Backdrop */}
+        {isOpen && (
+          <div 
+            className={styles.mobileBackdrop} 
+            onClick={onClose}
+            aria-hidden="true"
+          />
+        )}
+        
+        {/* Mobile Horizontal Navigation */}
+        {isOpen && (
+          <div className={styles.mobileHorizontalNav}>
+            <div className={styles.mobileNavContainer}>
+              {/* Search Section for Mobile */}
+              <div className={styles.mobileSearchSection} ref={searchRef}>
+                <div className={styles.mobileSearchBox}>
+                  <Search size={18} className={styles.mobileSearchIcon} />
+                  <input
+                    type="text"
+                    placeholder="Search employees..."
+                    className={styles.mobileSearchInput}
+                    value={searchQuery}
+                    onChange={(e) => {
+                      setSearchQuery(e.target.value);
+                      setShowSearchDropdown(e.target.value.length > 0);
+                    }}
+                    onFocus={() => searchQuery.length > 0 && setShowSearchDropdown(true)}
+                    onBlur={() => setTimeout(() => setShowSearchDropdown(false), 150)}
+                  />
+                </div>
+                {showSearchDropdown && searchQuery && (
+                  <div className={styles.mobileSearchDropdown}>
+                    {filteredEmployees.length > 0 ? (
+                      filteredEmployees.slice(0, 5).map((employee: Employee) => (
+                        <div
+                          key={employee.id}
+                          className={styles.mobileSearchDropdownItem}
+                          onClick={() => handleEmployeeSelect(employee)}
+                        >
+                          <img
+                            src={employee.avatar}
+                            alt={employee.name}
+                            className={styles.mobileEmployeeAvatar}
+                          />
+                          <div className={styles.mobileEmployeeInfo}>
+                            <div className={styles.mobileEmployeeName}>{employee.name}</div>
+                            <div className={styles.mobileEmployeePosition}>{employee.position}</div>
+                          </div>
+                        </div>
+                      ))
+                    ) : (
+                      <div className={styles.mobileSearchDropdownItem}>
+                        <Search size={16} />
+                        <span>No employees found</span>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+
+              {/* Main Navigation Items */}
+              <div className={styles.mobileNavGrid}>
+                {sidebarItems.map((item) => (
+                  <div key={item.label} className={styles.mobileNavSection}>
+                    {item.submenu ? (
+                      /* Items with submenu - show as expandable */
+                      <div>
+                        <button
+                          className={`${styles.mobileNavItem} ${
+                            isParentActive(item) ? styles.active : ''
+                          }`}
+                          onClick={() => handleItemClick(item)}
+                        >
+                          <div className={styles.mobileNavItemContent}>
+                            <item.icon size={22} />
+                            <span className={styles.mobileNavLabel}>{item.label}</span>
+                            <ChevronRight 
+                              size={16} 
+                              className={`${styles.mobileNavChevron} ${
+                                openSubmenu === item.label ? styles.rotated : ''
+                              }`} 
+                            />
+                          </div>
+                        </button>
+                        
+                        {/* Submenu items */}
+                        {openSubmenu === item.label && (
+                          <div className={styles.mobileSubmenu}>
+                            {item.submenu.map((submenuItem: any, idx: number) => (
+                              <button
+                                key={`${item.label}-${idx}`}
+                                className={`${styles.mobileSubmenuItem} ${
+                                  isSubmenuActive(submenuItem.path) ? styles.active : ''
+                                }`}
+                                onClick={() => handleSubmenuClick(submenuItem)}
+                              >
+                                {submenuItem.label}
+                              </button>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    ) : (
+                      /* Regular items - direct navigation */
+                      <button
+                        className={`${styles.mobileNavItem} ${
+                          isActivePath(item.path) ? styles.active : ''
+                        }`}
+                        onClick={() => handleItemClick(item)}
+                      >
+                        <div className={styles.mobileNavItemContent}>
+                          <item.icon size={22} />
+                          <span className={styles.mobileNavLabel}>{item.label}</span>
+                        </div>
+                      </button>
+                    )}
+                  </div>
+                ))}
+              </div>
+              
+              {/* Quick Actions Section */}
+              <div className={styles.mobileQuickActions}>
+                <h4 className={styles.mobileQuickActionsTitle}>Quick Actions</h4>
+                <div className={styles.mobileQuickActionsGrid}>
+                  <button 
+                    className={styles.mobileQuickActionButton}
+                    onClick={() => {
+                      router.push('/employees/add');
+                      if (onClose) onClose();
+                    }}
+                  >
+                    <Users size={20} />
+                    <span>Add Employee</span>
+                  </button>
+                  <button 
+                    className={styles.mobileQuickActionButton}
+                    onClick={() => {
+                      router.push('/pay-runs');
+                      if (onClose) onClose();
+                    }}
+                  >
+                    <DollarSign size={20} />
+                    <span>Run Payroll</span>
+                  </button>
+                  <button 
+                    className={styles.mobileQuickActionButton}
+                    onClick={() => {
+                      router.push('/reports');
+                      if (onClose) onClose();
+                    }}
+                  >
+                    <FileText size={20} />
+                    <span>Reports</span>
+                  </button>
+                  <button 
+                    className={styles.mobileQuickActionButton}
+                    onClick={() => {
+                      router.push('/settings');
+                      if (onClose) onClose();
+                    }}
+                  >
+                    <Settings size={20} />
+                    <span>Settings</span>
+                  </button>
+                </div>
+              </div>
+              
+              {/* Footer Items */}
+              <div className={styles.mobileNavFooter}>
+                <button 
+                  className={styles.mobileNavFooterItem}
+                  onClick={() => handleFooterItemClick('What\'s new')}
+                >
+                  <Lightbulb size={18} />
+                  <span>What's new</span>
+                </button>
+                <button 
+                  className={styles.mobileNavFooterItem}
+                  onClick={() => handleFooterItemClick('Help and support')}
+                >
+                  <HelpCircle size={18} />
+                  <span>Help and support</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+      </>
+    );
+  }
+
+  // Desktop Sidebar (existing implementation)
   return (
     <aside className={styles.sidebar}>
       <div className={styles.sidebar_logo}>
